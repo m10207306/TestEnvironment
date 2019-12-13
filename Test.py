@@ -518,218 +518,141 @@
 #             print("    ", os.path.join(meter, data, jpg))
 
 
-# import os
+# # 有順序的group，可以用在傷害數字上，測試起來是塞了89個東西要blit之後才開始掉frame(以60fps來算)
+# import os, random
 # os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"   # Block the information from importing pygame
 # import pygame                                       # 3rd party Library
-# import math
-#
-#
-# class character(pygame.sprite.Sprite):
-#
-#     def __init__(self, standby_image_path, attack_image_path):
-#         super().__init__()
-#         self.standby_image = pygame.image.load(standby_image_path).convert()
-#         self.standby_image.set_colorkey((255, 0, 255))
-#         self.standby_animate_num = self.standby_image.get_size()[0] / 200
-#         self.attack_image = pygame.image.load(attack_image_path).convert()
-#         self.attack_image.set_colorkey((255, 0, 255))
-#         self.attack_image_num = self.attack_image.get_size()[0] / 200
-#         self.current = 0
-#         self.status_idx = 0
-#         self.image = []
-#         self.rect = []
-#
-#     def update(self, switch):
-#         img_list = [self.standby_image, self.attack_image]
-#         if switch:
-#             self.status_idx = abs(self.status_idx - 1)
-#             self.current = 0
-#         if self.current == self.standby_animate_num:
-#             self.current = 0
-#         self.current += 1
-#         self.image = img_list[self.status_idx].subsurface(pygame.Rect((self.current-1) * 200, 0, 200, 200))
-#         self.rect = self.image.get_rect()
-#         self.rect.x = 1024 * 0.4 - self.rect.width / 2
-#         self.rect.y = 768 * 0.55 - self.rect.height / 2
 #
 #
 # pygame.init()
 # Clock = pygame.time.Clock()
-# screen = pygame.display.set_mode((1024, 768))
+# screen = pygame.display.set_mode((1024, 768), pygame.FULLSCREEN)
+# all_damage = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Damage.png")).convert()
+# all_damage.set_colorkey(all_damage.get_at((0, 0)))
+# damage_list = []
+# for i in range(0, 10):
+#     damage_list.append(all_damage.subsurface(pygame.Rect(i*10, 0, 10, 13)))
+# cri_image = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Critical.png")).convert()
+# cri_image.set_colorkey(cri_image.get_at((0, 0)))
+# miss_image = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Miss.png")).convert()
+# miss_image.set_colorkey(miss_image.get_at((0, 0)))
+#
+#
+# class Damage(pygame.sprite.Sprite):
+#     AllGroup = []
+#
+#     def __init__(self, damage1, type1):
+#         super().__init__()
+#         damage_value = [int(d) for d in str(damage1)]
+#         self.image = pygame.Surface((70, 60)).convert()
+#         self.image.set_colorkey((0, 0, 0))
+#         self.rect = self.image.get_rect()
+#         if type1 == 1 or type1 == 3:
+#             if type1 == 1:
+#                 self.image.blit(cri_image, (0, 0))
+#             damage_surface = pygame.Surface((10 * len(damage_value), 13)).convert()
+#             damage_surface.set_colorkey((0, 0, 0))
+#             for i in range(0, len(damage_value)):
+#                 damage_surface.blit(damage_list[damage_value[i]], (i * 10, 0))
+#             rect = damage_surface.get_rect()
+#             rect.center = self.rect.center
+#             self.image.blit(damage_surface, rect)
+#         elif type1 == 2:
+#             rect = miss_image.get_rect()
+#             rect.center = self.rect.center
+#             self.image.blit(miss_image, rect)
+#
+#         self.life = 0
+#
+#     def update(self):
+#         if self.life >= 40:
+#             Damage.AllGroup.remove(self)
+#         else:
+#             self.life += 1
+#         self.rect.x += 2
+#         self.rect.y += 2
+#
 #
 # playerGroup = pygame.sprite.Group()
-# playerGroup.add(character(os.path.join("..", "Ragnarok", "Char_Image", "Novice", "Standby_Dagger.png"),
-#                           os.path.join("..", "Ragnarok", "Char_Image", "Novice", "Attack_Dagger.png")))
+# Damage.AllGroup = playerGroup
 #
-# bg = pygame.image.load(os.path.join("..", "Ragnarok", "BG_Image", "Battle.png")).convert()
+# bg = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "BG_Image", "Battle.png")).convert()
 # screen.blit(bg, (0, 0))
-# switch = False
 #
+# count = 1
 # while True:
-#     Clock.tick(10)
+#     Clock.tick(30)
 #     for event in pygame.event.get():
 #         if event.type == pygame.QUIT:
 #             pygame.quit()
 #         elif event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_e:
+#             if event.key == pygame.K_ESCAPE:
 #                 pygame.quit()
-#             elif event.key == pygame.K_a:
-#                 switch = not switch
 #
-#     # standby = 1 frame
-#     # attack = 2 frame
+#     if count % 10 == 0:
+#         type_ = random.randint(1, 3)
+#         damage = random.randint(10, 10000)
+#         playerGroup.add(Damage(damage, type_))
 #     playerGroup.clear(screen, bg)
-#     playerGroup.update(switch)
+#     playerGroup.update()
 #     playerGroup.draw(screen)
 #     pygame.display.update()
-#     if switch:
-#         switch = not switch
+#
+#     count += 1
 
 
 # import os, datetime
-# os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"   # Block the information from importing pygame
-# import pygame                                       # 3rd party Library
+# import cv2, numpy
 #
-# pygame.init()
-# Clock = pygame.time.Clock()
-# screen = pygame.display.set_mode((1024, 768))
+# root = '/Volumes/Ixensor/01.研發部（RDD）/軟體演算組（ALG）/Experiment_Data/RegressionTestData/EveLine_II_Android/iPhone/iPhone7/Low'
 #
-# bg = pygame.image.load(os.path.join("..", "Ragnarok", "BG_Image", "Battle.png")).convert()
-# # screen.blit(bg, (0, 0))
+# files = os.listdir(root)
+# files.sort()
 #
-# bg2 = bg.subsurface(pygame.Rect(0, 0, 100, 100))
-#
-# class character(pygame.sprite.Sprite):
-#     def __init__(self, path):
-#         super().__init__()
-#         self.image = []
-#         self.rect = []
-#         self.ori_image = pygame.image.load(path).convert()
-#         self.ori_image.set_colorkey(self.ori_image.get_at((0, 0)))
-#         self.idx = 0
-#         self.width = 200
-#
-#     def update(self):
-#         if self.idx == 6:
-#             self.idx = 0
-#         self.idx += 1
-#         self.image = self.ori_image.subsurface(pygame.Rect((self.idx - 1) * self.width, 0, self.width, self.width))
-#         self.rect = self.image.get_rect()
-#
-# playerGroup = pygame.sprite.Group()
-# playerGroup.add(character(os.path.join("..", "Ragnarok", "Char_Image", "Novice", "Attack_Dagger_test.png")))
-#
-# while True:
-#     current = datetime.datetime.now()
-#     Clock.tick(60)
-#     print(Clock.get_fps())
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#         elif event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_e:
-#                 pygame.quit()
-#     print(datetime.datetime.now() - current)
-#     current = datetime.datetime.now()
-#
-#     playerGroup.clear(screen, bg)
-#     print(" ", datetime.datetime.now() - current)
-#     current = datetime.datetime.now()
-#
-#     playerGroup.update()
-#     print("  ", datetime.datetime.now() - current)
-#     current = datetime.datetime.now()
-#
-#     playerGroup.draw(screen)
-#     print("   ", datetime.datetime.now() - current)
-#     current = datetime.datetime.now()
-#
-#     pygame.display.update(pygame.Rect(0, 0, 200, 200))
-#     print("    ", datetime.datetime.now() - current)
-#     current = datetime.datetime.now()
+# for f in files:
+#     path = os.path.join(root, f)
+#     ave_img = numpy.zeros((720, 1280, 3), dtype = float)
+#     if os.path.isdir(path):
+#         # 轉換timestamp到一般格式
+#         # print('Original Folder Name = ', f)
+#         # f2 = datetime.datetime.fromtimestamp(float(f)).strftime("%Y%m%d%H%M%S")
+#         # print('Transform Folder Name = ', f2)
+#         # os.rename(os.path.join(root, f), os.path.join(root, f2))
+#         img_list = os.listdir(path)
+#         for i in img_list:
+#             if i[-3:] == "png":
+#                 print(os.path.join(path, i))
+#                 img = cv2.imread(os.path.join(path, i))
+#                 ave_img += img.astype(float)
+#     ave_img /= 5
+#     ave_img = ave_img.astype(int)
+#     cv2.imwrite(os.path.join(path, "InputSource2.tiff"), ave_img)
+
+# for f in files:
+#     path = os.path.join(root, f)
+#     if os.path.isdir(path):
+#         ave_img = cv2.imread(os.path.join(path, "InputSource.tiff"))
+#         row, col, channel = ave_img.shape
+#         matrix = cv2.getRotationMatrix2D((col//2, row//2), 180, 1)
+#         rotated = cv2.warpAffine(ave_img, matrix, (col, row))
+#         cv2.imwrite(os.path.join(path, "InputSource.tiff"), rotated)
+
+import os
+from PIL import Image
+
+root = "/Users/garyliang/GitHub/Ragnarok-Idle-Game/Map_Image"
+
+files = os.listdir(root)
+files.sort()
+
+for f in files:
+    if ".gif" in f:
+        path = os.path.join(root, f)
+        im = Image.open(path)
+        im.save(os.path.join(root, f[:-4] + ".png"))
+        os.remove(path)
 
 
-# 有順序的group，可以用在傷害數字上，測試起來是塞了89個東西要blit之後才開始掉frame(以60fps來算)
-import os, random
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"   # Block the information from importing pygame
-import pygame                                       # 3rd party Library
-
-
-pygame.init()
-Clock = pygame.time.Clock()
-screen = pygame.display.set_mode((1024, 768), pygame.FULLSCREEN)
-all_damage = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Damage.png")).convert()
-all_damage.set_colorkey(all_damage.get_at((0, 0)))
-damage_list = []
-for i in range(0, 10):
-    damage_list.append(all_damage.subsurface(pygame.Rect(i*10, 0, 10, 13)))
-cri_image = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Critical.png")).convert()
-cri_image.set_colorkey(cri_image.get_at((0, 0)))
-miss_image = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "Info_Image", "Miss.png")).convert()
-miss_image.set_colorkey(miss_image.get_at((0, 0)))
-
-
-class Damage(pygame.sprite.Sprite):
-    AllGroup = []
-
-    def __init__(self, damage1, type1):
-        super().__init__()
-        damage_value = [int(d) for d in str(damage1)]
-        self.image = pygame.Surface((70, 60)).convert()
-        self.image.set_colorkey((0, 0, 0))
-        self.rect = self.image.get_rect()
-        if type1 == 1 or type1 == 3:
-            if type1 == 1:
-                self.image.blit(cri_image, (0, 0))
-            damage_surface = pygame.Surface((10 * len(damage_value), 13)).convert()
-            damage_surface.set_colorkey((0, 0, 0))
-            for i in range(0, len(damage_value)):
-                damage_surface.blit(damage_list[damage_value[i]], (i * 10, 0))
-            rect = damage_surface.get_rect()
-            rect.center = self.rect.center
-            self.image.blit(damage_surface, rect)
-        elif type1 == 2:
-            rect = miss_image.get_rect()
-            rect.center = self.rect.center
-            self.image.blit(miss_image, rect)
-
-        self.life = 0
-
-    def update(self):
-        if self.life >= 40:
-            Damage.AllGroup.remove(self)
-        else:
-            self.life += 1
-        self.rect.x += 2
-        self.rect.y += 2
-
-
-playerGroup = pygame.sprite.Group()
-Damage.AllGroup = playerGroup
-
-bg = pygame.image.load(os.path.join("..", "Ragnarok-Idle-Game", "BG_Image", "Battle.png")).convert()
-screen.blit(bg, (0, 0))
-
-count = 1
-while True:
-    Clock.tick(30)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-
-    if count % 10 == 0:
-        type_ = random.randint(1, 3)
-        damage = random.randint(10, 10000)
-        playerGroup.add(Damage(damage, type_))
-    playerGroup.clear(screen, bg)
-    playerGroup.update()
-    playerGroup.draw(screen)
-    pygame.display.update()
-
-    count += 1
 
 
 
