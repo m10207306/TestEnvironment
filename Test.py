@@ -637,21 +637,20 @@
 #         rotated = cv2.warpAffine(ave_img, matrix, (col, row))
 #         cv2.imwrite(os.path.join(path, "InputSource.tiff"), rotated)
 
-import os
-from PIL import Image
-
-root = "/Users/garyliang/GitHub/Ragnarok-Idle-Game/Map_Image"
-
-files = os.listdir(root)
-files.sort()
-
-for f in files:
-    if ".gif" in f:
-        path = os.path.join(root, f)
-        im = Image.open(path)
-        im.save(os.path.join(root, f[:-4] + ".png"))
-        os.remove(path)
-
+# import os
+# from PIL import Image
+#
+# root = "/Users/garyliang/GitHub/Ragnarok-Idle-Game/Map_Image"
+#
+# files = os.listdir(root)
+# files.sort()
+#
+# for f in files:
+#     if ".gif" in f:
+#         path = os.path.join(root, f)
+#         im = Image.open(path)
+#         im.save(os.path.join(root, f[:-4] + ".png"))
+#         os.remove(path)
 
 
 
