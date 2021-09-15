@@ -653,6 +653,174 @@
 #         os.remove(path)
 
 
+# ========== monkey patch ==========
+# class A:
+# 	def func1(self):
+# 		print(1)
+
+# def monkey_f(void):
+# 	print(2)
+
+# A.func1 = monkey_f
+
+# obj = A()
+# obj.func1()
+
+# import math
+
+# i = int(input("benefit:"))
+# thres = (math.inf, 1000000, 600000, 400000, 200000, 100000, 0)
+# ratio = (0.01,     0.015,   0.03,   0.05,   0.075,  0.1,    0)
+
+# ret = 0
+
+# for idx in range(1, len(thres)):
+# 	if i > thres[idx]:
+# 		ret += (i - thres[idx]) * ratio[idx-1] if i < thres[idx-1] else thres[idx-1] * ratio[idx-1]
+
+# print(ret)
+
+
+# class Test:
+	
+# 	def __init__(self):
+# 		self.__x = 0
+
+# 	@property
+# 	def x(self):
+# 		return self.__x
+	
+# 	@x.setter
+# 	def x(self, value):
+# 		self.__x = value
+
+# obj = Test()
+# print(obj.x)
+# obj.x = 1
+# print(obj.x)
+# print(obj._Test__x)
+
+# import numpy as np
+#
+# D1 = np.array([1, 2, 3], dtype = float)
+# D2 = np.array([(1, 2, 3), (4, 5, 6)], dtype = np.float)
+# D3 = np.array([	[[1, 2, 3], [4, 5, 6]],
+# 				[[7, 8, 9], [10, 11, 12]],
+# 				[[13, 14, 15], [16, 17, 18]],
+# 				[[19, 20, 21], [22, 23, 24]] ])
+
+# print(D1)
+# print(D2)
+# print(D3)
+
+# print(np.zeros((2, 3)))
+# print(np.ones((2, 3, 4)))
+# print(np.arange(1, 10, 2))		# 1開始，每2一步，最大不超過10
+# print(np.linspace(0, 10, 5))	# 0 - 10 均勻 5等分
+# print(np.full((3, 2), 8))		# 3x2 全填 8
+# print(np.eye(3))				# 3x3的單位矩陣
+# print(np.random.random((2, 3)))	# 2x3的隨機矩陣(0-1隨機)
+
+# np.save("np_array_save", D1)		# npy file
+# np.savetxt("np_array_save.txt", D1)
+
+# print(D3.shape)					# 1D = col, 2D = (row, col), 3D = (z, row, col)
+# print(len(D3))
+# print(D3.ndim)
+# print(D3.size)
+# print(D3.dtype)
+# print(D3.dtype.name)
+# print(D3.astype(np.int))
+
+# print(np.add(D1, D1))
+# print(D1 + D1)
+# np.subtract, np.multiply, np.divide, np.sqrt, np.sin, np.cos, np.log
+
+# D1 == D1  					# element-wise comparison => 傳回每個Element的True/False
+# np.array_equal(arr1, arr2)	# array-wise comparison => 只回傳一個True/False
+
+# arr1.sum()
+# arr1.max()
+# arr1.min()
+# np.median(arr1)
+# np.mean(arr1)
+# np.std(arr1)
+# np.transpose(arr1)			# 或是arr1.T
+
+# arr1 = np.array([[1, 3, 5, 7], [2, 4, 6, 8]])
+# print(arr1.ravel())
+# print(arr1.reshape(4, 2))
+# arr1.resize(4, 2)
+# print(arr1)
+
+# a = np.array([1, 2, 3, 4])     # 建立a陣列
+# b = np.array([6, 7, 8, 9])     # 建立b陣列
+# print(np.append(a, 5))
+# print(np.append(a, b)) 
+# print(np.insert(a, 1, 0))		# parameter = arr, index, value
+# print(np.delete(a, [2]))		# [index]
+
+# a = np.array([(1, 2), (3, 4)])
+# b = np.array([(5, 6), (7, 8)])
+# print(np.vstack((a, b)))			# print(np.concatenate((a, b), axis = 0))
+# print(np.hstack((a, b)))			# print(np.concatenate((a, b), axis = 1))
+
+# print(D3.shape)
+# print(np.concatenate((D3, D3), axis = 0).shape)
+# print(np.concatenate((D3, D3), axis = 1).shape)
+# print(np.concatenate((D3, D3), axis = 2).shape)
+
+# print(D3.shape)
+# print(np.split(D3, 4, axis = 0))
+# print(np.split(D3, 2, axis = 1))
+# print(np.split(D3, 3, axis = 2))
+
+##########################################
+
+# import pandas as pd
+# import matplotlib.pyplot as plt
+
+# df = pd.read_csv("air_quality_no2_long.csv")
+# df = df.rename(columns={"date.utc":"datetime"})
+# df["datetime"] = pd.to_datetime(df["datetime"])
+
+# df["month"] = df["datetime"].dt.month
+
+# print(df)
+
+
+# fig, axs = plt.subplots()
+# df.groupby(df["datetime"].dt.hour)["value"].mean()
+
+
+##########################################
+
+
+import time
+import datetime
+
+ts = datetime.datetime(2021, 8, 21, hour=20, minute=52, second=21)
+te = datetime.datetime(2021, 8, 21, hour=20, minute=53, second=13)
+
+count = 11
+
+print(f"{'Process Starts from':<20} {ts.strftime('%Y/%m/%d %H:%M:%S')}")
+print(f"{'Process Ends at':<20} {te.strftime('%Y/%m/%d %H:%M:%S')}")
+
+td = (te - ts).total_seconds()
+td_ave = td / (count - 1)
+
+td = f"{td // 3600:02.0f}:{td % 3600 // 60:02.0f}:{td % 60:02.0f}"					# timedelta string formating
+td_ave = f"{td_ave // 3600:02.0f}:{td_ave % 3600 // 60:02.0f}:{td_ave % 60:02.0f}"	# timedelta string formating
+
+print(f"{'Time Cost': <20} {td}")
+print(f"{'Average Time Cost': <20} {td_ave} per case")
+
+
+
+
+
+
 
 
 
