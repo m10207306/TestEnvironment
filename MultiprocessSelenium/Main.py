@@ -66,11 +66,11 @@ if __name__ == "__main__":
 		"10",
 		["/Users/garyliang/Downloads/Test4.jpg"],
 		"",
-		["2021", "08", "28"],
-		["2021", "09", "01"],
+		["2021", "09", "26"],
+		["2021", "10", "01"],
 		False,
 		False,
-		"8"
+		"800"
 	]
 
 	def check_number(val: str):

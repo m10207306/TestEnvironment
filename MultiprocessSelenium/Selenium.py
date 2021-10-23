@@ -15,7 +15,7 @@ def selenium_process(keyin_list, web_url):
 	try:
 		web_driver_path = os.path.join(".", "chromedriver")
 		opts = Options()
-		opts.add_argument("--headless")
+		# opts.add_argument("--headless")
 
 		driver = webdriver.Chrome(web_driver_path, options=opts)
 		driver.maximize_window()
