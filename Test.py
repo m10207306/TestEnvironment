@@ -796,32 +796,35 @@
 ##########################################
 
 
-import time
-import datetime
+# import time
+# import datetime
 
-ts = datetime.datetime(2021, 8, 21, hour=20, minute=52, second=21)
-te = datetime.datetime(2021, 8, 21, hour=20, minute=53, second=13)
+# ts = datetime.datetime(2021, 8, 21, hour=20, minute=52, second=21)
+# te = datetime.datetime(2021, 8, 21, hour=20, minute=53, second=13)
 
-count = 11
+# count = 11
 
-print(f"{'Process Starts from':<20} {ts.strftime('%Y/%m/%d %H:%M:%S')}")
-print(f"{'Process Ends at':<20} {te.strftime('%Y/%m/%d %H:%M:%S')}")
+# print(f"{'Process Starts from':<20} {ts.strftime('%Y/%m/%d %H:%M:%S')}")
+# print(f"{'Process Ends at':<20} {te.strftime('%Y/%m/%d %H:%M:%S')}")
 
-td = (te - ts).total_seconds()
-td_ave = td / (count - 1)
+# td = (te - ts).total_seconds()
+# td_ave = td / (count - 1)
 
-td = f"{td // 3600:02.0f}:{td % 3600 // 60:02.0f}:{td % 60:02.0f}"					# timedelta string formating
-td_ave = f"{td_ave // 3600:02.0f}:{td_ave % 3600 // 60:02.0f}:{td_ave % 60:02.0f}"	# timedelta string formating
+# td = f"{td // 3600:02.0f}:{td % 3600 // 60:02.0f}:{td % 60:02.0f}"					# timedelta string formating
+# td_ave = f"{td_ave // 3600:02.0f}:{td_ave % 3600 // 60:02.0f}:{td_ave % 60:02.0f}"	# timedelta string formating
 
-print(f"{'Time Cost': <20} {td}")
-print(f"{'Average Time Cost': <20} {td_ave} per case")
-
-
+# print(f"{'Time Cost': <20} {td}")
+# print(f"{'Average Time Cost': <20} {td_ave} per case")
 
 
+#########################################
 
+import os
 
+path = "PygameDataGen/Synthtext/data/texts.txt"
 
+with open(path, "r") as f:
+    print(f.read().splitlines())
 
 
 

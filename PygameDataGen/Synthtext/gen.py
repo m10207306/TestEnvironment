@@ -9,13 +9,13 @@ Written by Yu Qian
 import os
 import cv2
 import math
-import numpy as np
-import pygame
-from pygame import freetype
-import random
-import multiprocessing
 import queue
+import random
+import pygame
 import Augmentor
+import numpy as np
+import multiprocessing
+from pygame import freetype
 
 from . import render_text_mask
 from . import colorize
